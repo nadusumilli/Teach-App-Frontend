@@ -1,15 +1,14 @@
 const path = require("path");
 const webpack = require("webpack");
-const {merge} = require("webpack-merge");
+const { merge } = require("webpack-merge");
 const htmlPlugin = require("html-webpack-plugin");
 const loadPresets = env => require("./build_utils/loadPresets")(env);
-const loadConfigs = env =>
-    require(`./build_utils/webpack.${env.mode}`)(env);
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const loadConfigs = env => require(`./build_utils/webpack.${env.mode}`)(env);
+const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 
 const SRC_DIR = path.resolve("./src");
 
-const config = ({ mode = 'production', presets = 'typescript' }) =>
+const config = ({ mode = "production", presets = "typescript" }) =>
     merge(
         {
             mode,
@@ -17,7 +16,7 @@ const config = ({ mode = 'production', presets = 'typescript' }) =>
             plugins: [
                 new htmlPlugin({ template: path.join(SRC_DIR, "index.html") }),
                 new ForkTsCheckerWebpackPlugin(),
-            ]
+            ],
         },
         loadPresets({ mode, presets }),
         loadConfigs({ mode, presets })

@@ -1,0 +1,59 @@
+.flyout {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.hide {
+    visibility: hidden;
+}
+
+.show {
+    visibility: visible;
+}
+
+.flyout-scram {
+    background-color: rgba(0, 0, 0, 0.1);
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
+
+.flyout-body {
+    height: 100%;
+    background-color: #fff;
+    z-index: 3;
+    position: absolute;
+    transition: width 0.4s;
+    overflow-y: auto;
+}
+
+.default-flyout-heading-section {
+    padding: 25px;
+    text-align: center;
+    vertical-align: middle;
+    color: black;
+    border-bottom: 1px solid black;
+    margin-bottom: 25px;
+}
+
+.default-flyout-footer-section {
+    padding: 25px;
+    vertical-align: middle;
+    color: black;
+    margin-top: 25px;
+}
+
+.default-flyout-heading-section .close-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+    margin-right: 15px;
+    margin-top: 10px;
+}

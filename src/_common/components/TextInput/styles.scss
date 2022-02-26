@@ -1,0 +1,76 @@
+@import "../../styles/colors.scss";
+
+.default-text-input-section {
+    position: relative;
+}
+
+.default-text-input-field {
+    width: 100%;
+    margin: auto;
+    height: 40px;
+    border: 1px solid #cccccc;
+    box-sizing: border-box;
+    border-radius: 5px;
+    font-size: 16px;
+    line-height: 22px;
+    color: #666666;
+    padding-left: 20px;
+}
+
+.default-text-input-field::placeholder {
+    color: #c4c4c4;
+}
+
+.default-text-input-field:focus {
+    outline: none !important;
+    border-color: $color-green;
+    box-shadow: 0 0 10px $color-green;
+}
+
+.default-text-input-field.placeholder-right {
+    padding-left: 45px;
+}
+
+.default-text-input-error {
+    color: $color-light-red;
+}
+
+.disabled-input {
+    cursor: pointer;
+    background-color: #f9f9f9;
+    pointer-events: none;
+}
+
+.default-input-error {
+    outline: none !important;
+    padding-bottom: 0px;
+    margin-bottom: 2px;
+    border-color: $color-light-red;
+    box-shadow: 0 0 10px $color-light-red;
+}
+
+.default-input-error:focus.default-input-error {
+    outline: none !important;
+    padding-bottom: 0px;
+    margin-bottom: 2px;
+    border-color: $color-light-red;
+    box-shadow: 0 0 10px $color-light-red;
+}
+
+.default-text-input-icon {
+    display: inline-block;
+    position: absolute;
+    right: 20px;
+    top: 10px;
+}
+
+.default-text-input-icon.icon-left {
+    right: 0px;
+    left: 20px;
+    display: inline;
+    width: 10px;
+}
+
+.default-text-input-icon {
+    top: 7px;
+}
