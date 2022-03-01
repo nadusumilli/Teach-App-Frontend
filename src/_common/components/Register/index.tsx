@@ -1,49 +1,98 @@
 import React, { useState } from "react";
 import TextInput from "../TextInput";
 import { separateCameCase } from "../../../utils/stringUtils";
+import { Axios, REGISTER_USER } from "../../../utils/requestUtils";
 import Button from "../Button";
 import "./style.scss";
+
+let axios = Axios.default;
 
 type buttonEventsType = { onClick: (e: React.MouseEvent<HTMLElement>) => void };
 
 type userType = {
-    firstName: string;
-    lastName: string;
+    first_name: string;
+    last_name: string;
     username: string;
     email: string;
     password: string;
-    confirmPassword: string;
+    confirm_password: string;
 };
 
 const Register = () => {
     const [user, setUser] = useState<userType>({
-        firstName: "",
-        lastName: "",
+        first_name: "",
+        last_name: "",
         username: "",
         email: "",
         password: "",
-        confirmPassword: "",
+        confirm_password: "",
     });
 
     const [errors, setErrors] = useState<userType>({
-        firstName: "",
-        lastName: "",
+        first_name: "",
+        last_name: "",
         username: "",
         email: "",
         password: "",
-        confirmPassword: "",
+        confirm_password: "",
     });
 
+    const isRegistrationDataEmpty = (key: string = "all") => {
+        if (key === "all") {
+            for (key in user) {
+                if (!user[key as keyof userType].length) return true;
+            }
+            return false;
+        } else {
+            return !user[key as keyof userType].length;
+        }
+    };
+
     const buttonEvents: buttonEventsType = {
-        onClick: e => {
+        onClick: async e => {
             e.preventDefault();
+
+            // check if user data is valid.
+            if (
+                errors.first_name ||
+                errors.last_name ||
+                errors.username ||
+                errors.email ||
+                errors.password ||
+                errors.confirm_password ||
+                isRegistrationDataEmpty()
+            ) {
+                console.log("errors are called.");
+                let regErrors: any = {};
+                Object.keys(user).map(key => {
+                    if (!user[key as keyof userType]) {
+                        regErrors[
+                            key as keyof typeof regErrors
+                        ] = `Please enter a valid ${separateCameCase(key)}`;
+                    }
+                });
+
+                setErrors({
+                    ...errors,
+                    ...regErrors,
+                });
+                return;
+            }
+
+            // data is valid sending a request to the api for registration.
             console.log("Submit button clicked", user);
+            try {
+                const res = await axios.post(REGISTER_USER, user);
+                console.log(res);
+            } catch (e) {
+                console.log(e);
+            }
         },
     };
 
     const validateData = (e: React.ChangeEvent<HTMLInputElement>) => {
         console.log("validating data.");
-        const emailTest = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
+        const emailTest = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}$/;
         const passwordTest =
             /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/;
         if (!e.currentTarget.value.length) {
@@ -63,17 +112,25 @@ const Register = () => {
                 [e.currentTarget
                     .name]: `Please enter a valid ${e.currentTarget.name}`,
             });
+        } else if (e.currentTarget.name === "password") {
+            if (!e.currentTarget.value)
+                setErrors({
+                    ...errors,
+                    [e.currentTarget
+                        .name]: `Please enter a valid ${e.currentTarget.name}`,
+                });
+            else if (!passwordTest.test(e.currentTarget.value))
+                setErrors({
+                    ...errors,
+                    [e.currentTarget.name]: "Please enter a strong password",
+                });
+            else
+                setErrors({
+                    ...errors,
+                    [e.currentTarget.name]: "",
+                });
         } else if (
-            e.currentTarget.name === "password" &&
-            !passwordTest.test(e.currentTarget.value)
-        ) {
-            setErrors({
-                ...errors,
-                [e.currentTarget
-                    .name]: `Please enter a valid ${e.currentTarget.name}`,
-            });
-        } else if (
-            e.currentTarget.name === "confirmPassword" &&
+            e.currentTarget.name === "confirm_password" &&
             e.currentTarget.value !== user.password
         ) {
             setErrors({
@@ -93,10 +150,10 @@ const Register = () => {
         });
     };
 
-    const firstNameField = {
-        id: "firstName",
-        name: "firstName",
-        value: user.firstName,
+    const first_nameField = {
+        id: "first_name",
+        name: "first_name",
+        value: user.first_name,
         placeholder: "Please enter a first name.",
         events: {
             onChange: onUserChange,
@@ -104,10 +161,10 @@ const Register = () => {
         errors,
     };
 
-    const lastNameField = {
-        id: "lastName",
-        name: "lastName",
-        value: user.lastName,
+    const last_nameField = {
+        id: "last_name",
+        name: "last_name",
+        value: user.last_name,
         placeholder: "Please enter a last name.",
         events: {
             onChange: onUserChange,
@@ -149,10 +206,10 @@ const Register = () => {
         errors,
     };
 
-    const confirmPasswordField = {
-        id: "confirmPassword",
-        name: "confirmPassword",
-        value: user.confirmPassword,
+    const confirm_passwordField = {
+        id: "confirm_password",
+        name: "confirm_password",
+        value: user.confirm_password,
         type: "password",
         placeholder: "Confirm Password.",
         events: {
@@ -170,12 +227,12 @@ const Register = () => {
             </div>
             <div className="register-container-body-section">
                 <form className="register-form">
-                    <TextInput fieldData={firstNameField} />
-                    <TextInput fieldData={lastNameField} />
+                    <TextInput fieldData={first_nameField} />
+                    <TextInput fieldData={last_nameField} />
                     <TextInput fieldData={userNameField} />
                     <TextInput fieldData={emailField} />
                     <TextInput fieldData={passwordField} />
-                    <TextInput fieldData={confirmPasswordField} />
+                    <TextInput fieldData={confirm_passwordField} />
                     <Button
                         label={"Register"}
                         type={"regular-lg"}

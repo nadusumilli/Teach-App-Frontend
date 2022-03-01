@@ -11,13 +11,20 @@ interface Props {
             value: React.MouseEvent<HTMLElement>
         ) => void | ((value: any) => void) | (() => void);
     };
+    disabled?: boolean;
 }
 
-const Button: React.FC<Props> = ({ label, classes, type, events }) => {
+const Button: React.FC<Props> = ({
+    label,
+    classes,
+    type,
+    events,
+    disabled = false,
+}) => {
     return (
         <div
             className={`default-button ${classes} ${type}`}
-            onClick={events?.onClick}
+            onClick={!disabled ? events?.onClick : undefined}
         >
             {label}
         </div>
