@@ -1,5 +1,6 @@
-const FlyoutFooter = props => {
-    const { useDefault = true, children } = props;
+import React from "react";
+
+const FlyoutFooter = ({ useDefault = true, children }) => {
     if (useDefault) {
         return (
             <div className="default-flyout-footer-section">

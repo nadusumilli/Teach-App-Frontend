@@ -1,18 +1,15 @@
 import { makeObservable, observable, action } from 'mobx';
+import { parseJwt } from "../../utils/stringUtils";
 
-function parseJwt(token: String | null) {
-    if (!token) { return; }
-    const base64Url = token.split('.')[1];
-    const base64 = base64Url.replace('-', '+').replace('_', '/');
-    return JSON.parse(window.atob(base64));
-}
+const token = localStorage.getItem('token') || '{}'
+console.log(token);
 
-console.log("Parsed token", parseJwt(localStorage.getItem('token')));
+console.log("Parsed token", parseJwt(JSON.parse(token)?.access));
 
 type updateDefintion = {
     [key: string]: any
-    firstName: string | undefined;
-    lastName: string | undefined;
+    first_name: string | undefined;
+    last_name: string | undefined;
     username: string | undefined;
     email: string | undefined;
     // role: string | undefined;
@@ -20,16 +17,16 @@ type updateDefintion = {
 
 class UserStore {
     [key: string]: any
-    public firstName?: string = "";
-    public lastName?: string = "";
+    public first_name?: string = "";
+    public last_name?: string = "";
     public username?= "";
     public email?: string = "";
     // public role?: string = "";
 
     constructor() {
         makeObservable(this, {
-            firstName: observable,
-            lastName: observable,
+            first_name: observable,
+            last_name: observable,
             username: observable,
             email: observable,
             // role: observable,
@@ -42,34 +39,44 @@ class UserStore {
             return;
         }
 
-        localStorage.setItem("token", token);
+        localStorage.setItem("token", JSON.stringify(token));
     }
 
     get token() {
-        return localStorage.getItem("token");
+        const token = localStorage.getItem('token') || '{}'
+        return JSON.parse(token);
+    }
+
+    set id(id: number) {
+        if (!id) {
+            return;
+        }
+        localStorage.setItem('id', id.toString());
+    }
+
+    get id() {
+        return Number(localStorage.getItem('id'));
     }
 
     get isLoggedIn() {
-        // console.log(this._id, Boolean(this._id), typeof this._id);
-        return Boolean(this.email);
+        return !!this.id;
     }
 
 
     update(definition: updateDefintion) {
         console.log("### update called", definition);
-        const whiteListKeys = ['firstName', 'username', 'lastName'];
+        const whiteListKeys = ['first_name', 'username', 'last_name', 'email'];
         whiteListKeys.forEach((key) => {
             if (definition[key]) {
                 this[key] = definition[key];
             }
         });
-        definition['lastName'] && (this.lastName = definition['lastName']);
-        definition['username'] && (this.username = definition['username']);
-        console.log("### update called done", this.firstName);
+        console.log("### update called done", this.first_name);
     }
 
     logout() {
-        localStorage.removeItem("user");
+        localStorage.removeItem("token");
+        localStorage.removeItem('isAvailable');
     }
 }
 

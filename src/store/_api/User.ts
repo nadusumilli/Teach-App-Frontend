@@ -1,5 +1,5 @@
 import UserController from "../controllers/UserController"
 
-export default function getCurrentUser() {
-    UserController.getCurrentUser();
+export function getCurrentUser(id: number) {
+    UserController.getCurrentUser(id);
 }

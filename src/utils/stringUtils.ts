@@ -4,17 +4,15 @@ export const titleCase = (value: string) =>
         .map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
         .join(" ");
 
-export const separateCameCase = (value: string) => {
-    const chars = value.split('');
-    let index;
-    for (let i = 0; i < chars.length; i++) {
-        const caps = /[A-Z]/;
-        if (caps.test(chars[i])) {
-            index = i;
-            break;
-        }
-    }
+export const separateSnakeCase = (value: string) => value
+    .split("_")
+    .map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+    .join(" ");
 
-    if (!index) return titleCase(value);
-    return titleCase(value.slice(0, index)) + ' ' + value.slice(index);
+
+export const parseJwt = (token: String | null) => {
+    if (!token) { return; }
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace('-', '+').replace('_', '/');
+    return JSON.parse(window.atob(base64));
 }

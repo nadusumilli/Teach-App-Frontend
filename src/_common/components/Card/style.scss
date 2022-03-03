@@ -1,0 +1,36 @@
+@import "../../styles/colors.scss";
+
+.default-card {
+    width: 450px;
+    border: 1px solid $color-light-grey;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+
+    .card-header-container {
+        padding: 10px;
+        background-color: rgba(0, 0, 0, 0.03);
+        height: 8%;
+
+        .card-header {
+            font-size: large;
+            font-weight: 400;
+            vertical-align: middle;
+            text-align: center;
+            align-items: center;
+            margin-top: 5px;
+        }
+    }
+
+    .card-body-container {
+        padding: 20px;
+        height: 80%;
+    }
+
+    .card-footer-container {
+        align-items: center;
+        text-align: center;
+        height: 12%;
+        padding: 30px;
+    }
+}

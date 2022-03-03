@@ -1,5 +1,6 @@
-const FlyoutHeader = props => {
-    const { useDefault = true, events, children } = props;
+import React from "react";
+
+const FlyoutHeader = ({ useDefault = true, events, children }) => {
     const { handleFlyoutClose } = events;
 
     if (useDefault) {

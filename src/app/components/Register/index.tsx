@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import TextInput from "../TextInput";
-import { separateCameCase } from "../../../utils/stringUtils";
+import TextInput from "../../../_common/components/TextInput";
+import { separateSnakeCase } from "../../../utils/stringUtils";
 import { Axios, REGISTER_USER } from "../../../utils/requestUtils";
-import Button from "../Button";
+import Button from "../../../_common/components/Button";
+import Card from "../../../_common/components/Card";
 import "./style.scss";
 
 let axios = Axios.default;
@@ -18,7 +19,7 @@ type userType = {
     confirm_password: string;
 };
 
-const Register = () => {
+const Register: React.FC = () => {
     const [user, setUser] = useState<userType>({
         first_name: "",
         last_name: "",
@@ -68,7 +69,7 @@ const Register = () => {
                     if (!user[key as keyof userType]) {
                         regErrors[
                             key as keyof typeof regErrors
-                        ] = `Please enter a valid ${separateCameCase(key)}`;
+                        ] = `Please enter a valid ${separateSnakeCase(key)}`;
                     }
                 });
 
@@ -83,7 +84,8 @@ const Register = () => {
             console.log("Submit button clicked", user);
             try {
                 const res = await axios.post(REGISTER_USER, user);
-                console.log(res);
+                console.log("user registered with", res.data);
+                window.location.assign("/");
             } catch (e) {
                 console.log(e);
             }
@@ -99,7 +101,7 @@ const Register = () => {
             setErrors({
                 ...errors,
                 [e.currentTarget
-                    .name]: `Please enter a valid ${separateCameCase(
+                    .name]: `Please enter a valid ${separateSnakeCase(
                     e.currentTarget.name
                 )}`,
             });
@@ -220,12 +222,17 @@ const Register = () => {
 
     return (
         <div className="register-container">
-            <div className="register-container-header-section">
-                <h1 className="register-container-heading">
-                    User Registeration
-                </h1>
-            </div>
-            <div className="register-container-body-section">
+            <Card
+                header={"User Registration"}
+                footer={
+                    <Button
+                        label={"Register"}
+                        type={"regular-md"}
+                        classes={"light-grey"}
+                        events={buttonEvents}
+                    />
+                }
+            >
                 <form className="register-form">
                     <TextInput fieldData={first_nameField} />
                     <TextInput fieldData={last_nameField} />
@@ -233,14 +240,8 @@ const Register = () => {
                     <TextInput fieldData={emailField} />
                     <TextInput fieldData={passwordField} />
                     <TextInput fieldData={confirm_passwordField} />
-                    <Button
-                        label={"Register"}
-                        type={"regular-lg"}
-                        classes={"light-grey"}
-                        events={buttonEvents}
-                    />
                 </form>
-            </div>
+            </Card>
         </div>
     );
 };
