@@ -1,0 +1,61 @@
+@import "../../styles/colors.scss";
+
+body {
+    margin: 0px;
+    padding: 0px;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 40px;
+    background-color: rgba(0, 0, 0, 0.03);
+
+    .header-user-details-container {
+        cursor: pointer;
+        position: relative;
+
+        .arrow-icon {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background: transparent;
+            background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+            background-repeat: no-repeat;
+            background-position-y: 12px;
+            margin-right: 2rem;
+            padding: 1rem;
+            padding-right: 2rem;
+        }
+
+        .header-user-settings-container {
+            position: absolute;
+            list-style: none;
+            border: 1px solid $color-light-grey;
+            border-radius: 5px;
+            background-color: #ffffff;
+            padding: 10px;
+            right: 10px;
+            width: 200px;
+
+            .hr {
+                color: $color-light-grey;
+            }
+
+            .header-user-settings-item {
+                padding: 10px 0px;
+            }
+
+            &.hide {
+                display: none;
+            }
+
+            &.show {
+                display: block;
+            }
+        }
+    }
+}
+
+.main-content {
+    margin: 30px;
+}

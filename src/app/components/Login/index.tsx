@@ -46,6 +46,7 @@ const Login: React.FC = () => {
                 const loggedInUser = parseJwt(res.data.access);
                 UserStore["id"] = loggedInUser?.id ?? 0;
                 localStorage.setItem("token", JSON.stringify(res.data));
+                window.location.assign("/");
             } catch (error) {
                 console.log(error);
             }

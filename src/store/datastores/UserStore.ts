@@ -1,10 +1,4 @@
 import { makeObservable, observable, action } from 'mobx';
-import { parseJwt } from "../../utils/stringUtils";
-
-const token = localStorage.getItem('token') || '{}'
-console.log(token);
-
-console.log("Parsed token", parseJwt(JSON.parse(token)?.access));
 
 type updateDefintion = {
     [key: string]: any

@@ -5,5 +5,9 @@ const config: Config.InitialOptions = {
     transform: {
         '^.+\\.tsx?$': 'ts-jest',
     },
+    moduleNameMapper: {
+        "\\.(scss|sass|css)$": "identity-obj-proxy"
+    },
+    setupFilesAfterEnv: ["./tests_setup/setup_tests.js"],
 };
 export default config;
