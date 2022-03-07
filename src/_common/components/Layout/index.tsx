@@ -1,25 +1,35 @@
-import React, { useState } from "react";
-import { Outlet } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 import { observer } from "mobx-react-lite";
-import UserStore from "../../../store/datastores/UserStore";
+import { storeContext } from "../../../stores/store.context";
 import "./style.scss";
 
-const Layout: React.FC = observer(() => {
+const Layout: React.FC = () => {
+    const navigate = useNavigate();
+    const { user } = useContext(storeContext);
+
     const [showUserSettings, setShowUserSettings] = useState<boolean>(false);
     const logoutUser = (e: React.MouseEvent<HTMLElement>) => {
-        console.log(e);
+        user.logout();
+        navigate("/", { replace: true });
     };
     return (
-        <div className="body">
-            <div className="header-container">
-                <div className="header-app-icon">App Icon</div>
-                {UserStore.username && (
+        <div data-test="component-layout" className="body">
+            <div data-test="app-header-container" className="header-container">
+                <div data-test="app-title" className="header-app-icon">
+                    App Icon
+                </div>
+                {user.isAuthenticated() && (
                     <div
+                        data-test="header-user-details-container"
                         className="header-user-details-container"
                         onClick={() => setShowUserSettings(!showUserSettings)}
                     >
-                        <span className="header-user-name">
-                            {UserStore.username}
+                        <span
+                            className="header-user-name"
+                            data-test="header-user-name"
+                        >
+                            {user.getUsername()}
                         </span>
                         <span className="arrow-icon"></span>
                         <ul
@@ -44,11 +54,11 @@ const Layout: React.FC = observer(() => {
                     </div>
                 )}
             </div>
-            <div className="main-content">
+            <div data-test="main-content" className="main-content">
                 <Outlet />
             </div>
         </div>
     );
-});
+};
 
-export default Layout;
+export default observer(Layout);

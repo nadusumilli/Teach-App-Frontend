@@ -2,9 +2,10 @@ import React from "react";
 import { shallow } from "enzyme";
 import App from "../App";
 
-describe("Test for App component", () => {
+describe("App component", () => {
     beforeEach(() => {});
-    it("App component should render", () => {
+    it("component should render without errors.", () => {
         const wrapper = shallow(<App />);
+        expect(wrapper.exists()).toBeTruthy();
     });
 });

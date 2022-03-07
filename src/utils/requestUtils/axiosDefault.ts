@@ -1,9 +1,9 @@
 import axios from "axios";
 
-const token = JSON.parse(localStorage.getItem('token') || '{}');
+const token = localStorage.getItem('access_token')
 
 axios.defaults.baseURL = 'http://localhost/api/v1/';
-token && (axios.defaults.headers.common['Authorization'] = `Bearer ${token?.access}`);
+token && (axios.defaults.headers.common['Authorization'] = `Bearer ${token}`);
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 axios.defaults.headers.get['Content-Type'] = 'application/json';
 
