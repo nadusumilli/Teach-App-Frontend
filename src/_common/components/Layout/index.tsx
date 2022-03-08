@@ -1,12 +1,15 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { observer } from "mobx-react-lite";
-import { storeContext } from "../../../stores/store.context";
+import { UserStoreImpl } from "../../../stores/datastores/user.store";
 import "./style.scss";
 
-const Layout: React.FC = () => {
+interface Props {
+    user: UserStoreImpl;
+}
+
+const Layout: React.FC<Props> = ({ user }) => {
     const navigate = useNavigate();
-    const { user } = useContext(storeContext);
 
     const [showUserSettings, setShowUserSettings] = useState<boolean>(false);
     const logoutUser = (e: React.MouseEvent<HTMLElement>) => {
@@ -21,7 +24,7 @@ const Layout: React.FC = () => {
                 </div>
                 {user.isAuthenticated() && (
                     <div
-                        data-test="header-user-details-container"
+                        data-test="header-user-section"
                         className="header-user-details-container"
                         onClick={() => setShowUserSettings(!showUserSettings)}
                     >
@@ -33,6 +36,7 @@ const Layout: React.FC = () => {
                         </span>
                         <span className="arrow-icon"></span>
                         <ul
+                            data-test="header-user-settings"
                             className={`header-user-settings-container ${
                                 showUserSettings ? "show" : "hide"
                             }`}
@@ -45,6 +49,7 @@ const Layout: React.FC = () => {
                             </li>
                             <hr />
                             <li
+                                data-test="header-logout"
                                 className="header-user-settings-item"
                                 onClick={logoutUser}
                             >

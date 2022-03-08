@@ -15,7 +15,7 @@ const App = () => {
     const { user } = useContext(storeContext);
     return (
         <Routes>
-            <Route path="/" element={<Layout />}>
+            <Route path="/" element={<Layout user={user} />}>
                 {user.isAuthenticated() && (
                     <Route index element={<Landing />} />
                 )}
