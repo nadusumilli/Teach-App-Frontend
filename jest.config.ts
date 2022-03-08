@@ -9,5 +9,6 @@ const config: Config.InitialOptions = {
         "\\.(scss|sass|css)$": "identity-obj-proxy"
     },
     setupFilesAfterEnv: ["./tests_setup/setup_tests.js"],
+    testEnvironment: "jsdom"
 };
 export default config;

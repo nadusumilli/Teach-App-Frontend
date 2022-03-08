@@ -1,4 +1,8 @@
-import { setup, findByTestAttribute } from "../../../../utils/testUtils";
+import {
+    setup,
+    mountSetup,
+    findByTestAttribute,
+} from "../../../../utils/testUtils";
 import Layout from "../index";
 
 // pay attention to write it at the top level of your file
@@ -62,13 +66,13 @@ describe("Layout component", () => {
 
     it("component should complete logout once clicked.", () => {
         store.isAuthenticated = jest.fn().mockReturnValue(true);
-        const wrapper = setup({ user: store }, Layout);
+        const wrapper = mountSetup({ user: store }, Layout);
         const userSection = findByTestAttribute(wrapper, "header-user-section");
         let userSettings = findByTestAttribute(wrapper, "header-user-settings");
         expect(userSettings.hasClass("hide")).toBe(true);
         userSection.simulate("click");
         userSettings = findByTestAttribute(wrapper, "header-user-settings");
-        expect(userSettings.hasClass("show")).toBeFalsy(); // TODO: change to truthy
+        expect(userSettings.hasClass("show")).toBeTruthy();
     });
 
     it("component should complete logout once clicked.", () => {

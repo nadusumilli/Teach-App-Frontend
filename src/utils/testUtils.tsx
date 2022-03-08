@@ -1,5 +1,5 @@
 import React from "react";
-import { shallow, ShallowWrapper } from "enzyme";
+import { shallow, mount, ShallowWrapper, ReactWrapper } from "enzyme";
 
 /**
  * Factory function to create a shallow wrapper for components
@@ -12,7 +12,18 @@ export const setup = (
     App: React.FC | React.FC<any>
 ) => shallow(<App {...props} />);
 
+/**
+ * Factory function to create a shallow wrapper for components
+ * @param props
+ * @param App
+ * @returns
+ */
+export const mountSetup = (
+    props: object | undefined = {},
+    App: React.FC | React.FC<any>
+) => mount(<App {...props} />);
+
 export const findByTestAttribute = (
-    wrapper: ShallowWrapper,
+    wrapper: ShallowWrapper | ReactWrapper,
     value: string = ""
 ) => wrapper.find(`[data-test='${value}']`);
